@@ -1,13 +1,30 @@
-#include "validar.c" 
+#include <stdio.h>
+#include <string.h>
+#include "validar.c"
+#include "gerar_barras.c"
 
 int main() {
-    printf("=== TESTE DE VALIDAÇÃO ===\n\n");
+    printf("=== TESTE: VALIDAÇÃO + GERAÇÃO DE BARRAS ===\n\n");
 
-    printf("40170725 → %s\n", valida_padrao_ean8("40170725") ? "VÁLIDO" : "inválido");
-    printf("40170726 → %s\n", valida_padrao_ean8("40170726") ? "VÁLIDO" : "inválido");
-    printf("12345678 → %s\n", valida_padrao_ean8("12345678") ? "VÁLIDO" : "inválido");
-    printf("abc12345 → %s\n", valida_padrao_ean8("abc12345") ? "VÁLIDO" : "inválido");
-    printf("1234567  → %s\n", valida_padrao_ean8("1234567")  ? "VÁLIDO" : "inválido");
+    const char *ids[] = {
+        "40170725", "40170726", "12345670",
+        "12345678", "abc12345", "1234567"
+    };
 
+    for (int i = 0; i < 6; i++) {
+        const char *id = ids[i];
+        printf("%s - ", id);
+
+        char *barras = gerar_barras(id);
+
+        if (barras) {
+            printf("VÁLIDO - %s (67 bits)\n", barras);
+            free(barras);
+        } else {
+            printf("INVÁLIDO\n");
+        }
+    }
+
+    printf("\n=== FIM DO TESTE ===\n");
     return 0;
 }
