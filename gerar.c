@@ -3,6 +3,7 @@
 #include <string.h>
 #include "validar.c"
 #include "gerar_barras.c"
+#include "pbm.c"
 
 int main(int argc, char *argv[]) {
     // Verifica se tem o ID obrigatório
@@ -64,7 +65,26 @@ int main(int argc, char *argv[]) {
     printf("Largura total: %d\n", largura_total);
     printf("Altura total: %d\n", altura_total);
     printf("Barras geradas: %s\n", barras);
+    
+    char **matriz = criar_matriz(altura_total, largura_total);
+    if (!matriz) {
+        printf("Erro: Falha ao alocar memória para a imagem.\n");
+        free(barras);
+        return 1;
+    }
+
+    preencher_barras(matriz, barras, margem, pixels_por_area, altura);
     free(barras);
+
+    // Escrever o arquivo
+    if (escrever_pbm(arquivo, matriz, altura_total, largura_total) != 0) {
+        printf("Erro: Falha ao escrever o arquivo %s.\n", arquivo);
+        liberar_matriz(matriz, altura_total);
+        return 1;
+    }
+
+    liberar_matriz(matriz, altura_total);
+    printf("Imagem gerada: %s\n", arquivo);
 
     return 0;
 }
