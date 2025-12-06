@@ -50,5 +50,21 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    char *barras = gerar_barras(id);
+    if (!barras) {
+        printf("Erro: Falha ao gerar barras.\n");
+        return 1;
+    }
+
+    // Calcular dimensões da imagem
+    int largura_total = 67 * pixels_por_area + 2 * margem;
+    int altura_total = altura + 2 * margem;
+
+    // Imprimir para teste
+    printf("Largura total: %d\n", largura_total);
+    printf("Altura total: %d\n", altura_total);
+    printf("Barras geradas: %s\n", barras);
+    free(barras);
+
     return 0;
 }
