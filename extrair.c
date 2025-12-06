@@ -56,6 +56,16 @@ int carregar_pbm(const char *arquivo) {
     return 0;
 }
 
+void liberar_matriz() {
+    if (matriz) {
+        for (int y = 0; y < altura; y++) {
+            free(matriz[y]);
+        }
+        free(matriz);
+        matriz = NULL;
+    }
+}
+
 int main(int argc, char *argv[]) {
     // Verifica se tem o arquivo como argumento
     if (argc != 2) {
@@ -84,5 +94,6 @@ int main(int argc, char *argv[]) {
 
     fclose(f);
 
+    liberar_matriz();
     return 0;
 }
