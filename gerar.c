@@ -31,5 +31,24 @@ int main(int argc, char *argv[]) {
     printf("Altura: %d\n", altura);
     printf("Arquivo: %s\n", arquivo);
 
+    // Validar o ID
+    if (!valida_padrao_ean8(id)) {
+        printf("Erro: Identificador inválido (verifique dígitos ou verificador).\n");
+        return 1;
+    }
+
+    // Verificar se arquivo existe e perguntar sobrescrita
+    FILE *f = fopen(arquivo, "r");
+    if (f) {
+        fclose(f);
+        printf("Arquivo %s já existe. Sobrescrever (s/n)? ", arquivo);
+        char resp;
+        scanf("%c", &resp);
+        if (resp != 's' && resp != 'S') {
+            printf("Erro: arquivo resultante já existe.\n");
+            return 1;
+        }
+    }
+
     return 0;
 }
