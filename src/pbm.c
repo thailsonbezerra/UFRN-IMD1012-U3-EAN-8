@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 // Cria matriz de pixel
 char **criar_matriz(int altura, int largura) {

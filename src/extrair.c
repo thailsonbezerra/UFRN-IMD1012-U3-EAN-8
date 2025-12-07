@@ -57,7 +57,7 @@ int carregar_pbm(const char *arquivo) {
     return 0;
 }
 
-void liberar_matriz() {
+void liberar_matriz_extrair() {
     if (matriz) {
         for (int y = 0; y < altura; y++) {
             free(matriz[y]);
@@ -101,7 +101,7 @@ int main(int argc, char *argv[]) {
 
     if (modulo == 0) {
         printf("Erro: não encontrou o primeiro módulo.\n");
-        liberar_matriz();
+        liberar_matriz_extrair();
         return 1;
     }
 
@@ -110,7 +110,7 @@ int main(int argc, char *argv[]) {
         matriz[meio][x + modulo] != '0' ||
         matriz[meio][x + 2*modulo] != '1') {
         printf("Marcador inicial 101 não encontrado.\n");
-        liberar_matriz();
+        liberar_matriz_extrair();
         return 1;
     }
 
@@ -127,18 +127,18 @@ int main(int argc, char *argv[]) {
     char id[9];
     for (int i = 0; i < 4; i++) {
         int d = decodificar(bits + 3 + i*7, L_CODE);
-        if (d == -1) { printf("Erro L-code\n"); liberar_matriz(); return 1; }
+        if (d == -1) { printf("Erro L-code\n"); liberar_matriz_extrair(); return 1; }
         id[i] = '0' + d;
     }
     for (int i = 0; i < 4; i++) {
         int d = decodificar(bits + 36 + i*7, R_CODE);
-        if (d == -1) { printf("Erro R-code\n"); liberar_matriz(); return 1; }
+        if (d == -1) { printf("Erro R-code\n"); liberar_matriz_extrair(); return 1; }
         id[4+i] = '0' + d;
     }
     id[8] = '\0';
 
     printf("%s\n", id);
 
-    liberar_matriz();
+    liberar_matriz_extrair();
     return 0;
 }

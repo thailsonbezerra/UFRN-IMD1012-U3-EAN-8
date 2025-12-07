@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "validar.c"
-#include "gerar_barras.c"
-#include "pbm.c"
+#include "validar.h"
+#include "barras.h"
+#include "pbm.h"
 
 int main(int argc, char *argv[]) {
     // Verifica se tem o ID obrigatório

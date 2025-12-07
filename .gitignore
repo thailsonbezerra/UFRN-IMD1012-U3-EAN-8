@@ -1,3 +1,4 @@
 gerar
 *.pbm
 extrair
+build/*
