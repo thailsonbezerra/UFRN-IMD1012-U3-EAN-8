@@ -1,25 +1,28 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c11
-BUILD = build
-SRC = src
 
-OBJS = \
-    $(BUILD)/codificacoes.o \
-    $(BUILD)/validar.o \
-    $(BUILD)/pbm.o \
-    $(BUILD)/barras.o
+SRC_DIR = src
+CORE_DIR = src/core
+INC_DIR = src/include
+BUILD_DIR = build
 
-all: extrair gerar
+CORE_SRCS = $(wildcard $(CORE_DIR)/*.c)
+CORE_OBJS = $(patsubst $(CORE_DIR)/%.c, $(BUILD_DIR)/%.o, $(CORE_SRCS))
 
-extrair: $(BUILD)/extrair.o $(OBJS)
-	$(CC) $(CFLAGS) -o extrair $(BUILD)/extrair.o $(OBJS)
+GERAR = gerar
+EXTRAIR = extrair
 
-gerar: $(BUILD)/gerar.o $(OBJS)
-	$(CC) $(CFLAGS) -o gerar $(BUILD)/gerar.o $(OBJS)
+all: $(GERAR) $(EXTRAIR)
 
-$(BUILD)/%.o: $(SRC)/%.c
-	mkdir -p $(BUILD)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(BUILD_DIR)/%.o: $(CORE_DIR)/%.c
+	mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
+
+$(GERAR): $(SRC_DIR)/gerar.c $(CORE_OBJS)
+	$(CC) $(CFLAGS) -I$(INC_DIR) $^ -o $(GERAR)
+
+$(EXTRAIR): $(SRC_DIR)/extrair.c $(CORE_OBJS)
+	$(CC) $(CFLAGS) -I$(INC_DIR) $^ -o $(EXTRAIR)
 
 clean:
-	rm -rf build extrair gerar
+	rm -rf $(BUILD_DIR) *.o $(GERAR) $(EXTRAIR)
