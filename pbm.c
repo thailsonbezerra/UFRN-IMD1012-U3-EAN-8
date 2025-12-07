@@ -2,11 +2,15 @@
 
 // Cria matriz de pixel
 char **criar_matriz(int altura, int largura) {
-    char **matriz = malloc(altura * sizeof(char *));
+    char **matriz = malloc(altura * sizeof(char*));
     if (!matriz) return NULL;
+
     for (int y = 0; y < altura; y++) {
-        matriz[y] = calloc(largura, sizeof(char));  // '0' por padrão
+        matriz[y] = malloc(largura * sizeof(char));
         if (!matriz[y]) return NULL;
+        for (int x = 0; x < largura; x++) {
+            matriz[y][x] = '0';
+        }
     }
     return matriz;
 }
